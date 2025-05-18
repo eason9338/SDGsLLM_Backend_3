@@ -1,0 +1,8 @@
+後端：(開新的terminal)
+cd backend
+node app.js
+
+在backend資料夾底下建立一個.env檔，填入
+PORT=8000
+MONGO_URI=改成你自己的mongodb uri
+JWT_SECRET=8887bc36f7cf8304ae6072dc4fd6a0835478bc550fbe93c062ff5050bb7f9c2375f3c7e9f1eccd03190f3339a1a1c5934a3acfb005f52db2c878a8a3abb80a6f
