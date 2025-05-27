@@ -1,7 +1,5 @@
-// controllers/chatController.js
 const Chat = require('../models/Chat');
 
-// controllers/chatController.js 中的 createChat 函數
 exports.createChat = async (req, res) => {
   try {
     console.log('創建對話請求:', req.body);
@@ -176,7 +174,6 @@ exports.deleteChat = async (req, res) => {
   }
 };
 
-// 批量發送消息（用戶消息和助手回覆）
 exports.sendMessage = async (req, res) => {
   try {
     const { chatId } = req.params;
