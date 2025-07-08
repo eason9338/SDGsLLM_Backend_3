@@ -1,9 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const authRoutes = require('./src/routes/authRoutes');
 const cors = require('cors');
+
+const authRoutes = require('./src/routes/authRoutes');
 const chatRoutes = require('./src/routes/chatRoutes');
+const fileRoutes = require('./src/routes/fileRoutes');
 
 dotenv.config();
 
@@ -26,9 +28,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Auth routes
+// 現有路由
 app.use('/api/auth', authRoutes);
 app.use('/api/chats', chatRoutes);
+app.use('/api/files', fileRoutes);
 
 const PORT = process.env.PORT || 8000;
 
