@@ -1,1 +1,31 @@
 config/firebase-service-account.json
+
+# Node modules
+node_modules/
+
+# 環境變數設定檔（自己保留 .env.local 類似的可行）
+.env
+.env.*
+
+# Log 檔
+logs
+*.log
+npm-debug.log*
+
+# 上傳檔案資料夾（視情況可保留或忽略）
+uploads/
+
+# 作業系統雜項檔案
+.DS_Store
+Thumbs.db
+
+# VSCode 等 IDE 設定
+.vscode/
+.idea/
+
+# 測試覆蓋率報告（如果有使用）
+coverage/
+
+# 暫存資料夾
+tmp/
+.cache/
