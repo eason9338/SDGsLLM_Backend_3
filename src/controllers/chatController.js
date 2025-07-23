@@ -191,7 +191,7 @@ exports.sendMessage = async (req, res) => {
     chat.messages.push({ role: 'user', content: message });
 
     // 優先使用RAG，失敗時自動降級到基本聊天
-    const aiResponse = await getAIResponse(message);
+    const aiResponse = await getRAGResponse(message);
 
     chat.messages.push({ role: 'assistant', content: aiResponse });
 
