@@ -11,9 +11,9 @@ router.use(protect);
 router.post('/', chatController.createChat);
 router.get('/', chatController.getUserChats);
 router.get('/:chatId', chatController.getChatById);
-router.post('/:chatId/messages', chatController.addMessage);
 router.put('/:chatId/title', chatController.updateChatTitle);
 router.delete('/:chatId', chatController.deleteChat);
-router.post('/:chatId/send', chatController.sendMessage);
+router.post('/:chatId/messages', chatController.addMessage);      // 單純添加訊息
+router.post('/:chatId/send', chatController.sendMessage);         // 發送+AI回覆
 
 module.exports = router;

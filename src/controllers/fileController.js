@@ -6,6 +6,9 @@ exports.uploadFile = async (req, res) => {
     const localFilePath = req.file.path;
     const destination = `pdfs/${req.file.originalname}`;
 
+    // 呼叫 Python 模型服務處理檔案
+    // await callPythonModelService(localFilePath);
+
     await bucket.upload(localFilePath, {
       destination,
       metadata: {

@@ -1,5 +1,5 @@
 const Chat = require('../models/Chat');
-const { getAIResponse } = require('../services/llmService'); // ✅ 引入呼叫 FastAPI 的服務
+const { getAIResponse, getRAGResponse } = require('../services/llmService');
 
 // 創建對話
 exports.createChat = async (req, res) => {
@@ -170,7 +170,7 @@ exports.deleteChat = async (req, res) => {
   }
 };
 
-// 發送訊息 + 取得 AI 回覆
+// 發送訊息 + 取得 AI 回覆（預設使用RAG）
 exports.sendMessage = async (req, res) => {
   try {
     const { chatId } = req.params;
@@ -190,7 +190,8 @@ exports.sendMessage = async (req, res) => {
 
     chat.messages.push({ role: 'user', content: message });
 
-    const aiResponse = await getAIResponse(message);
+    // 優先使用RAG，失敗時自動降級到基本聊天
+    const aiResponse = await getRAGResponse(message);
 
     chat.messages.push({ role: 'assistant', content: aiResponse });
 
@@ -212,4 +213,3 @@ exports.sendMessage = async (req, res) => {
     });
   }
 };
-
