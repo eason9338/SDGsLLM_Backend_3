@@ -28,10 +28,30 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 現有路由
-app.use('/api/auth', authRoutes);
-app.use('/api/chats', chatRoutes);
-app.use('/api/files', fileRoutes);
+// 健康檢查
+app.get('/healthz', (req, res) => res.status(200).json({ ok: true }));
+
+// API 前綴，集中管理
+const API_PREFIX = process.env.API_PREFIX || '/api';
+
+app.use(`${API_PREFIX}/auth`, authRoutes);
+app.use(`${API_PREFIX}/chats`, chatRoutes);
+app.use(`${API_PREFIX}/files`, fileRoutes);
+
+// 404 處理
+app.use((req, res, next) => {
+  if (req.path.startsWith(API_PREFIX)) {
+    return res.status(404).json({ success: false, message: 'API 路由不存在' });
+  }
+  next();
+});
+
+// 全域錯誤處理
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error('全域錯誤:', err);
+  res.status(err.status || 500).json({ success: false, message: err.message || '伺服器錯誤' });
+});
 
 const PORT = process.env.PORT || 8000;
 

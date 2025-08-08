@@ -11,7 +11,9 @@ router.use(protect);
 router.post('/', chatController.createChat);
 router.get('/', chatController.getUserChats);
 router.get('/:chatId', chatController.getChatById);
+// 支援舊路徑與簡化路徑，與前端對齊
 router.put('/:chatId/title', chatController.updateChatTitle);
+router.put('/:chatId', chatController.updateChatTitle);
 router.delete('/:chatId', chatController.deleteChat);
 router.post('/:chatId/messages', chatController.addMessage);      // 單純添加訊息
 router.post('/:chatId/send', chatController.sendMessage);         // 發送+AI回覆

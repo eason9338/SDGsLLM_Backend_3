@@ -27,7 +27,7 @@ exports.createChat = async (req, res) => {
   }
 };
 
-// 取得所有對話
+// 取得所有對話（僅回傳必要欄位）
 exports.getUserChats = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -49,7 +49,7 @@ exports.getUserChats = async (req, res) => {
   }
 };
 
-// 取得單一對話
+// 取得單一對話（包含訊息）
 exports.getChatById = async (req, res) => {
   try {
     const { chatId } = req.params;
@@ -180,12 +180,8 @@ exports.sendMessage = async (req, res) => {
     let chat = await Chat.findOne({ _id: chatId, userId });
 
     if (!chat) {
-      chat = await Chat.create({
-        _id: chatId,
-        userId,
-        title: '新對話',
-        messages: []
-      });
+      // 若沒有找到就建立新對話
+      chat = await Chat.create({ userId, title: '新對話', messages: [] });
     }
 
     chat.messages.push({ role: 'user', content: message });

@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // API 配置
-const API_BASE_URL = 'http://203.145.216.194:54863';
+const API_BASE_URL = 'http://203.145.216.208:54898';
 
 /**
  * 基本聊天功能
