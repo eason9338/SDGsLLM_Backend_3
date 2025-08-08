@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/healthz', (req, res) => res.status(200).json({ ok: true }));
 
 // API 前綴，集中管理
-const API_PREFIX = process.env.API_PREFIX || '/api';
+const API_PREFIX = process.env.API_PREFIX || 'sdgsllmfrontend-production.up.railway.app/api';
 
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/chats`, chatRoutes);
