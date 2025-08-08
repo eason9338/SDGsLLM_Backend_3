@@ -53,7 +53,7 @@ if (hasLocalFile) {
 // 初始化 Firebase
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'sdgsllm.firebasestorage.app'
+  storageBucket: 'sdgsllm-32882.firebasestorage.app'
 });
 
 console.log('✅ Firebase 初始化成功');
