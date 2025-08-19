@@ -1,6 +1,7 @@
 // controllers/authController.js
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const ApiResponse = require('../utils/responseUtils');
 
 // 產生 JWT
 const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -14,26 +15,25 @@ exports.register = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
 
     if (!name || !email || !password || !confirmPassword) {
-      return res.status(400).json({ message: '請填寫所有欄位' });
+      return ApiResponse.badRequest(res, '請填寫所有欄位');
     }
     if (password !== confirmPassword) {
-      return res.status(400).json({ message: '密碼不匹配' });
+      return ApiResponse.badRequest(res, '密碼不匹配');
     }
 
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: '用戶已存在' });
+      return ApiResponse.badRequest(res, '用戶已存在');
     }
 
     const user = await User.create({ name, email, password });
 
-    return res.status(201).json({
-      message: '註冊成功',
+    return ApiResponse.created(res, {
       user: serializeUser(user),
       token: generateToken(user._id)
-    });
+    }, '註冊成功');
   } catch (error) {
-    return res.status(500).json({ message: '伺服器錯誤', error: error.message });
+    return ApiResponse.serverError(res, '註冊失敗', error);
   }
 };
 
@@ -42,25 +42,24 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: '請填寫所有欄位' });
+      return ApiResponse.badRequest(res, '請填寫所有欄位');
     }
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      return res.status(401).json({ message: '電子郵件或密碼錯誤' });
+      return ApiResponse.unauthorized(res, '電子郵件或密碼錯誤');
     }
 
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      return res.status(401).json({ message: '電子郵件或密碼錯誤' });
+      return ApiResponse.unauthorized(res, '電子郵件或密碼錯誤');
     }
 
-    return res.status(200).json({
-      message: '登入成功',
+    return ApiResponse.success(res, {
       user: serializeUser(user),
       token: generateToken(user._id)
-    });
+    }, '登入成功');
   } catch (error) {
-    return res.status(500).json({ message: '伺服器錯誤', error: error.message });
+    return ApiResponse.serverError(res, '登入失敗', error);
   }
 };

@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-// API 配置
-const API_BASE_URL = 'http://203.145.216.189:53848';
-
+// API 配置：可用環境變數覆蓋，方便本地/雲端切換
+// const API_BASE_URL = process.env.LLM_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL =  'http://203.145.216.182:58028';
 /**
  * 基本聊天功能
  */
